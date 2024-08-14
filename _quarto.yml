@@ -1,0 +1,17 @@
+project:
+  type: website
+
+website:
+  title: "blog-template"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/etc5523-2022
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+
+
+
