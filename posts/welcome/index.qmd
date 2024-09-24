@@ -1,12 +1,12 @@
 ---
 title: "Welcome To My Blog Template"
-author: "Emi Tanaka"
-date: "2022-07-18"
-categories: [news]
+author: "Praachi Ajmera"
+date: "2024-10-04"
+categories: [World]
 ---
 
-This is the first post in a Quarto blog. Welcome!
+The blog on UNESCO World Heritage Sites.
 
-![](thumbnail.jpg)
+![](unesco2.jpg)
 
 
