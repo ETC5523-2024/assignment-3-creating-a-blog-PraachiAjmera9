@@ -2,14 +2,20 @@ project:
   type: website
 
 website:
-  title: "Praachi Ajmera's Portfolio"
+  title: "Praachi Ajmera"
   navbar:
+    left:
+      - text: Blog
+        href: index.qmd
+      - text: About
+        href: about.qmd
     right:
-      - about.qmd
       - icon: github
         href: https://github.com/PraachiAjmera9
+      - icon: linkedin
+        href: https://www.linkedin.com/in/praachi-ajmera-29723818b
 format:
   html:
-    theme: paper
+    theme: lux
     css: styles.css
 

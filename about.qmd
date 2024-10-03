@@ -1,8 +1,10 @@
 ---
 title: "About"
-image: My_photo4.jpeg
+image: image33.jpeg
 about:
-  template: jolla
+  template: solana
+  image-width: 20em
+  image-shape: round
   links:
     - icon: github
       text: Github
@@ -10,7 +12,6 @@ about:
     - icon: linkedin
       text: LinkedIn
       href: https://www.linkedin.com/in/praachi-ajmera-29723818b
-
 ---
 
 I am a student at Monash University pursuing a Master's in Business Analytics. I completed my Bachelor's in Computer Science Engineering in India, where I built a strong foundation in programming and data structures. I'm eager to learn and gain experience in business analytics, and I enjoy working with Python, R, and SQL. I'm excited to explore machine learning and data mining. In my free time, I play badminton and read, which helps me stay balanced and curious.

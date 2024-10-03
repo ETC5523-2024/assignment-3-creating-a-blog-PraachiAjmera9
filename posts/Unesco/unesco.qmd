@@ -1,0 +1,194 @@
+---
+title: "Mapping the World’s Heritage: Insights into Trends and Regional Distribution of UNESCO Sites"
+description: |
+  Analyzing significant trends and distributions of UNESCO World Heritage Sites.
+author: "Praachi Ajmera"
+date: "2024-10-04"
+categories: [World, R]
+format:
+  html:
+    css: styles.css
+---
+
+![](unesco2.jpg)
+
+
+```{r data_loading, include=FALSE, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(tidytuesdayR)
+library(sf)
+
+heritage <- read_sf("data/worldheritagesites.shp")
+
+```
+
+
+```{r data_cleaning, include=FALSE, warning=FALSE, message=FALSE}
+
+heritage_clean <- heritage %>% 
+  select(NAME, LONGITUDE, LATITUDE, COUNTRY, REGION, DATEINSCRI, DANGER, AREAHA, CATFIN)
+
+
+```
+
+
+This report delves into the captivating world of UNESCO World Heritage Sites, uncovering patterns and trends in their inscription over time and across regions.  By analyzing visualizations, we uncover how different regions contribute to the global heritage landscape, the evolution of heritage site inscriptions, and the distribution across various categories. These insights reveal both the rich global heritage and key factors driving these trends.
+
+
+UNESCO World Heritage Sites are valued for their global significance, showcasing humanity's cultural and natural legacy. By examining trends and regional distribution, we can understand global heritage preservation efforts and see how different regions contribute to this legacy. This analysis aims to reveal these trends and offer a clear view of how heritage sites are spread and classified worldwide.
+
+
+1. **Trends in World Heritage Sites Inscribed Each Year by Region** 
+
+The time series plot in @fig-yearlytrends reveals how the number of World Heritage Sites inscribed each year varies by region.
+
+```{r sites_per_year_by_region, warning=FALSE, message=FALSE}
+#| fig.cap: "Number of Heritage Sites Inscribed Each Year by Region"
+#| label: fig-yearlytrends
+#| echo: false
+#| code-fold: true
+
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+heritage_count <- heritage_clean %>%
+  filter(!is.na(DATEINSCRI)) %>%
+  group_by(DATEINSCRI, REGION) %>%
+  summarise(count = n())
+
+
+# Update factor levels for REGION
+heritage_count <- heritage_count %>%
+  mutate(REGION = recode(REGION,
+                         "Latin America and the Caribbean" = "Latin America and Caribbean"))
+
+p <- ggplot(heritage_count, aes(x = as.numeric(DATEINSCRI), y = count)) +
+  geom_line(color = "black", size = 0.8) +
+  geom_smooth(method = "loess", color = "darkred") +
+  facet_wrap(~ REGION, ncol = 3) +  
+  scale_y_log10() +
+  labs(title = "Number of Heritage Sites Inscribed Each Year by Region",
+       x = "Year",
+       y = "Number of Sites") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(hjust = 1),
+    plot.title = element_text(size = 12, face = "bold"),
+    axis.title = element_text(size = 10),
+    axis.text = element_text(size = 10),
+    strip.text = element_text(size = 8),
+    strip.background = element_rect(fill = "lightgray", color = "gray"), 
+    panel.spacing = unit(1, "lines") # Space between facets
+  )
+
+# Save the plot to a file
+ggsave("heritage_sites_by_region.png", plot = p, width = 9, height = 4, dpi = 300)
+p
+```
+
+**Key Observations**:
+
++ *Asia and the Pacific*: A consistent rise in site inscriptions showcases growing global recognition of the region's heritage.
++ *Europe and North America & Latin America and the Caribbean*: Peaks around 1998-2005 indicate periods of intensified heritage recognition and conservation efforts.
++ *Africa and Arab States*: A notable decrease suggests challenges in site preservation or documentation in these regions.
++ *Comparative Trends*: Europe and North America, along with Asia and the Pacific, lead in the number of sites, while Africa lags behind.
+
+2. **Distribution of Heritage Sites by Region and Category**
+
+The @fig-regioncategory provides a horizontal bar chart detailing the distribution of World Heritage Sites by region and category. This visualization illustrates how sites are classified and distributed globally.
+
+```{r sites_by_region_category, warning=FALSE, message=FALSE}
+#| fig.cap: "Number of Heritage Sites by Region and Category"
+#| label: fig-regioncategory
+#| echo: false
+#| code-fold: true
+
+catfin_mapping <- c(
+  "C" = "Cultural",
+  "N" = "Natural",
+  "C/N" = "Cultural/Natural",
+  "CD" = "Cultural",
+  "ND" = "Not Designated"
+)
+
+heritage_clean <- heritage_clean %>%
+  mutate(CATFIN_FULL = recode(CATFIN, !!!catfin_mapping))
+
+region_catfin_summary <- heritage_clean %>%
+  group_by(REGION, CATFIN_FULL) %>%
+  summarise(count = n(), .groups = 'drop')
+
+# Create a horizontal bar plot of the number of sites by region and category
+p2 <- ggplot(region_catfin_summary, aes(x = count, y = REGION, fill = CATFIN_FULL)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.8), width = 0.7) +
+  scale_x_log10() +
+  labs(title = "Number of Heritage Sites by Region and Category",
+       x = "Number of Sites",
+       y = "Region",
+       fill = "Category") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(hjust = 0),
+        axis.text.y = element_text(angle = 0, hjust = 1), # Adjust y-axis text
+        plot.title = element_text(size = 10, face = "bold"),
+        axis.title = element_text(size = 12),
+        axis.text = element_text(size = 9)) +
+  scale_fill_brewer(palette = "Pastel2")
+
+ggsave("heritage_sites_by_region&category.png", plot = p, width = 8, height = 4, dpi = 300)
+p2
+
+```
+
+**Key Insights**:
+
++ *Cultural Sites*: Predominantly concentrated in Europe and North America, reflecting a strong cultural heritage presence.
++ *Natural Sites*: Significant in Asia and the Pacific as well as Europe and North America, highlighting diverse natural landscapes.
++ *Cultural/Natural Sites*: Most common in Asia and the Pacific, where Europe and North America is also in the lead behind, both showing a blend of cultural and natural heritage.
++ *Underrepresented Regions*: Arab States and Africa have fewer natural and cultural/natural sites, indicating potential areas for increased focus.
+
+
+```{r}
+library(kableExtra)
+
+# Summary table by region and category
+simple_table <- heritage_clean %>%
+  group_by(REGION, CATFIN_FULL) %>%
+  summarise(Total_Sites = n(), .groups = 'drop') %>%
+  pivot_wider(names_from = CATFIN_FULL, values_from = Total_Sites) %>%
+  replace(is.na(.), 0)  # Replace NA with 0 for better display
+
+# Display the table
+simple_table
+
+```
+
+
+
+
+###### **Data source** : 
+
+Data was sourced from the [UNESCO World Heritage Sites dataset](https://ihp-wins.unesco.org/dataset/unesco-world-heritage-sites), which includes comprehensive information about World Heritage Sites globally.
+
+###### **Data dictionary** : 
+
+1. NAME: The official name of the World Heritage Site.
+2. COUNTRY: The country where the World Heritage Site is located.
+3. DATEINSCRI: Year(s) when the site was inscribed as a World Heritage Site.
+4. REGION: Geographical region where the site is located.
+5. CATFIN_FULL: Final classification of the site (Cultural, Natural, Cultural/Natural, Not Designated).
+
+
+
+The analysis highlights significant trends and distributions of UNESCO World Heritage Sites. The findings highlight the significant contributions of Europe and North America, while also identifying regions with fewer sites. The insights provided can guide future heritage preservation efforts and help balance the global representation of World Heritage Sites.
+
+
+
+
+# References:
++ **Integrity in UNESCO World Heritage Sites. A comparative study for rural landscapes** : Gullino, P., & Larcher, F. (2013). Integrity in UNESCO World Heritage Sites. A comparative study for rural landscapes. Journal of Cultural Heritage, 14(5), 389–395 [Link](https://doi.org/10.1016/j.culher.2012.10.005)
+
++ **UNESCO website** : UNESCO World Heritage Sites - IHP Water Information Network System (IHP-WINS). (n.d.) [Link](https://ihp-wins.unesco.org/dataset/unesco-world-heritage-sites)
+
+
+

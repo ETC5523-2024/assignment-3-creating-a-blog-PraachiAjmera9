@@ -1,5 +1,15 @@
 /* css styles */
 .navbar-dark, .quarto-title-banner {
-    background-color: #d3d3d3; /* Dark blue background */
-    color: #ffffff; /* White text */
+    background-color: #d3d3d3;
+    color: #A52A2A;
+}
+
+.quarto-title-block {
+  padding: 5px;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+}
+
+h1.title {
+  font-size: 28px;
 }
