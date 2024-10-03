@@ -83,7 +83,7 @@ p <- ggplot(heritage_count, aes(x = as.numeric(DATEINSCRI), y = count)) +
   )
 
 # Save the plot to a file
-ggsave("heritage_sites_by_region.png", plot = p, width = 9, height = 4, dpi = 300)
+ggsave("images/heritage_sites_by_region.png", plot = p, width = 9, height = 4, dpi = 300)
 p
 ```
 
@@ -135,7 +135,7 @@ p2 <- ggplot(region_catfin_summary, aes(x = count, y = REGION, fill = CATFIN_FUL
         axis.text = element_text(size = 9)) +
   scale_fill_brewer(palette = "Pastel2")
 
-ggsave("heritage_sites_by_region&category.png", plot = p, width = 8, height = 4, dpi = 300)
+ggsave("images/heritage_sites_by_region&category.png", plot = p2, width = 8, height = 4, dpi = 300)
 p2
 
 ```

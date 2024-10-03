@@ -23,6 +23,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -70,35 +104,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../styles.css">
 <link rel="stylesheet" href="styles.css">
@@ -199,8 +204,6 @@ window.Quarto = {
 
 <p><img src="unesco2.jpg" class="img-fluid"></p>
 <p>This report delves into the captivating world of UNESCO World Heritage Sites, uncovering patterns and trends in their inscription over time and across regions. By analyzing visualizations, we uncover how different regions contribute to the global heritage landscape, the evolution of heritage site inscriptions, and the distribution across various categories. These insights reveal both the rich global heritage and key factors driving these trends.</p>
-<section id="introduction" class="level3">
-<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
 <p>UNESCO World Heritage Sites are valued for their global significance, showcasing humanity’s cultural and natural legacy. By examining trends and regional distribution, we can understand global heritage preservation efforts and see how different regions contribute to this legacy. This analysis aims to reveal these trends and offer a clear view of how heritage sites are spread and classified worldwide.</p>
 <ol type="1">
 <li><strong>Trends in World Heritage Sites Inscribed Each Year by Region</strong></li>
@@ -252,6 +255,57 @@ Figure&nbsp;2: Number of Heritage Sites by Region and Category
 <li><em>Cultural/Natural Sites</em>: Most common in Asia and the Pacific, where Europe and North America is also in the lead behind, both showing a blend of cultural and natural heritage.</li>
 <li><em>Underrepresented Regions</em>: Arab States and Africa have fewer natural and cultural/natural sites, indicating potential areas for increased focus.</li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'kableExtra'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:dplyr':
+
+    group_rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summary table by region and category</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>simple_table <span class="ot">&lt;-</span> heritage_clean <span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(REGION, CATFIN_FULL) <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Total_Sites =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">'drop'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> CATFIN_FULL, <span class="at">values_from =</span> Total_Sites) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace</span>(<span class="fu">is.na</span>(.), <span class="dv">0</span>)  <span class="co"># Replace NA with 0 for better display</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the table</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>simple_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 19 features and 5 fields
+Geometry type: GEOMETRY
+Dimension:     XY
+Bounding box:  xmin: -179.7153 ymin: -54.59472 xmax: 178.8345 ymax: 71.18889
+Geodetic CRS:  WGS 84
+# A tibble: 19 × 6
+   REGION                           geometry Cultural `Cultural/Natural` Natural
+ * &lt;chr&gt;                      &lt;GEOMETRY [°]&gt;    &lt;int&gt;              &lt;int&gt;   &lt;int&gt;
+ 1 Africa          MULTIPOINT ((-23.60519 1…       48                  0       0
+ 2 Africa          MULTIPOINT ((-3.41667 14…        0                  5       0
+ 3 Africa          MULTIPOINT ((-16.16667 1…        0                  0      24
+ 4 Africa          MULTIPOINT ((-12.71667 1…        0                  0       0
+ 5 Arab States     MULTIPOINT ((-5.36667 35…       73                  0       0
+ 6 Arab States     MULTIPOINT ((9 25.5), (3…        0                  3       0
+ 7 Arab States     MULTIPOINT ((-16.10889 2…        0                  0       5
+ 8 Asia and the P… MULTIPOINT ((115.4028 -8…      172                  0       0
+ 9 Asia and the P… MULTIPOINT ((131 -25.333…        0                 12       0
+10 Asia and the P… MULTIPOINT ((113.4361 -2…        0                  0      60
+11 Asia and the P… MULTIPOINT ((101.5 -2.5)…        0                  0       0
+12 Europe and Nor… MULTIPOINT ((-27.22 38.6…      425                  0       0
+13 Europe and Nor… MULTIPOINT ((-5e-04 42.6…        0                 10       0
+14 Europe and Nor… MULTIPOINT ((-9.928611 -…        0                  0      61
+15 Europe and Nor… POINT (-80.99639 25.5544…        0                  0       0
+16 Latin America … MULTIPOINT ((-43.29139 -…       96                  0       0
+17 Latin America … MULTIPOINT ((-76.57111 1…        0                  5       0
+18 Latin America … MULTIPOINT ((-32.42511 -…        0                  0      35
+19 Latin America … MULTIPOINT ((-84.675 15.…        0                  0       0
+# ℹ 1 more variable: `Not Designated` &lt;int&gt;</code></pre>
+</div>
+</div>
 <section id="data-source" class="level6">
 <h6 class="anchored" data-anchor-id="data-source"><strong>Data source</strong> :</h6>
 <p>Data was sourced from the <a href="https://ihp-wins.unesco.org/dataset/unesco-world-heritage-sites">UNESCO World Heritage Sites dataset</a>, which includes comprehensive information about World Heritage Sites globally.</p>
@@ -266,31 +320,6 @@ Figure&nbsp;2: Number of Heritage Sites by Region and Category
 <li>CATFIN_FULL: Final classification of the site (Cultural, Natural, Cultural/Natural, Not Designated).</li>
 </ol>
 <p>The analysis highlights significant trends and distributions of UNESCO World Heritage Sites. The findings highlight the significant contributions of Europe and North America, while also identifying regions with fewer sites. The insights provided can guide future heritage preservation efforts and help balance the global representation of World Heritage Sites.</p>
-</section>
-</section>
-<section id="part-b" class="level1">
-<h1>PART B :</h1>
-<section id="summary" class="level3">
-<h3 class="anchored" data-anchor-id="summary">Summary:</h3>
-<p>This article examines the distribution and trends of UNESCO World Heritage Sites, focusing on regional variations and categorical differences. It utilizes visualizations to highlight significant patterns and trends.</p>
-<section id="underlinebackground" class="level5">
-<h5 class="anchored" data-anchor-id="underlinebackground"><span class="math inline">\(\underline{Background}\)</span>:</h5>
-<p>The Introduction section of the report provides the background, focusing on the global distribution and classification of UNESCO World Heritage Sites. It aims to shed light on regional trends in site inscriptions and the global distribution of different site categories.</p>
-</section>
-<section id="underlinelede" class="level5">
-<h5 class="anchored" data-anchor-id="underlinelede"><span class="math inline">\(\underline{Lede}\)</span>:</h5>
-<p>The Executive Summary serves as the lede, highlighting how the report explores trends in site inscriptions over time and their distribution across regions and categories. This section reveals key insights into global heritage preservation and the factors influencing these trends.</p>
-</section>
-<section id="underlinesummary" class="level5">
-<h5 class="anchored" data-anchor-id="underlinesummary"><span class="math inline">\(\underline{Summary}\)</span>:</h5>
-<p>The Results section includes the summary, where the report uses time series and bar plots to analyze trends in site additions and their distribution. Significant findings include an increase in site additions in Asia and the Pacific, peaks in Europe and North America, and a comparative analysis of site types by region.</p>
-</section>
-<section id="underlinemain-result" class="level5">
-<h5 class="anchored" data-anchor-id="underlinemain-result"><span class="math inline">\(\underline{Main Result}\)</span>:</h5>
-<p>Also within the Results section, the main result highlights that Europe and North America lead in the number of cultural sites, while natural sites are most prominent in Asia and the Pacific. The analysis also identifies regions with fewer sites, such as Africa and Arab States, suggesting areas that may require increased focus in global heritage preservation efforts.</p>
-<p>In this report, both the Summary and Main Result sections are included under the same heading, Results. Usually, these sections are separate to clearly distinguish between the overall findings and specific details. Combining them might impact the report’s clarity and organization.</p>
-</section>
-</section>
 </section>
 <section id="references" class="level1">
 <h1>References:</h1>
