@@ -1,17 +1,58 @@
 ---
-title: "Blog"
-listing:
-  contents: posts
-  sort: "date desc"
-  type: default
-  categories: true
-  sort-ui: false
-  filter-ui: false
-page-layout: full
-title-block-banner: true
-format:
+engine: knitr
+format: 
   html:
-    css: styles.css
+    page-layout: full
 ---
 
+```{css}
+#| echo: false
 
+
+body, html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ /* Ensures no overflow if the image exceeds the screen size */
+}
+
+
+img#home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(2px);
+  object-fit: cover; /* Ensures the image covers the entire container while maintaining aspect ratio */
+}
+
+
+
+.centered {
+  position: absolute; /* Places text on top of the image */
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3em;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Adds shadow for readability */
+  text-align: center;
+}
+```
+
+
+
+<div class="container">
+  <img id="home" src="home_image/world_map.jpg">
+  <div class="centered">Welcome to Heritage Exploration!</div>
+</div>

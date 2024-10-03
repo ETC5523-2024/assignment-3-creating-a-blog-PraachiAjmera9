@@ -5,8 +5,10 @@ website:
   title: "Praachi Ajmera"
   navbar:
     left:
-      - text: Blog
+      - text: Home
         href: index.qmd
+      - text: Blog
+        href: blog.qmd
       - text: About
         href: about.qmd
     right:
