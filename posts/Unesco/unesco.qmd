@@ -17,6 +17,9 @@ format:
 library(tidyverse)
 library(tidytuesdayR)
 library(sf)
+library(kableExtra)
+library(ggplot2)
+library(dplyr)
 
 heritage <- read_sf("data/worldheritagesites.shp")
 
@@ -32,13 +35,22 @@ heritage_clean <- heritage %>%
 ```
 
 
-This report delves into the captivating world of UNESCO World Heritage Sites, uncovering patterns and trends in their inscription over time and across regions.  By analyzing visualizations, we uncover how different regions contribute to the global heritage landscape, the evolution of heritage site inscriptions, and the distribution across various categories. These insights reveal both the rich global heritage and key factors driving these trends.
+UNESCO World Heritage Sites represent humanity's most valuable cultural and natural legacies. By analyzing patterns over time and across regions, this report uncovers key trends shaping the global heritage landscape. Through visualizations, we reveal how different regions contribute to preserving and recognizing heritage, how inscriptions evolved over time, and the classification of these sites.
 
 
-UNESCO World Heritage Sites are valued for their global significance, showcasing humanity's cultural and natural legacy. By examining trends and regional distribution, we can understand global heritage preservation efforts and see how different regions contribute to this legacy. This analysis aims to reveal these trends and offer a clear view of how heritage sites are spread and classified worldwide.
+## Data Overview
+
+This study utilizes the [UNESCO World Heritage Sites dataset](https://ihp-wins.unesco.org/dataset/unesco-world-heritage-sites), encompassing detailed information about heritage sites globally. The key variables analyzed include:
+
+1. NAME: The official name of the World Heritage Site.
+2. COUNTRY: The country where the World Heritage Site is located.
+3. DATEINSCRI: Year(s) when the site was inscribed as a World Heritage Site.
+4. REGION: Geographical region where the site is located.
+5. CATFIN_FULL: Final classification of the site (Cultural, Natural, Cultural/Natural, Not Designated).
 
 
-1. **Trends in World Heritage Sites Inscribed Each Year by Region** 
+
+## **Trends in World Heritage Sites Inscribed Each Year by Region** 
 
 The time series plot in @fig-yearlytrends reveals how the number of World Heritage Sites inscribed each year varies by region.
 
@@ -48,9 +60,6 @@ The time series plot in @fig-yearlytrends reveals how the number of World Herita
 #| echo: false
 #| code-fold: true
 
-# Load necessary libraries
-library(ggplot2)
-library(dplyr)
 
 heritage_count <- heritage_clean %>%
   filter(!is.na(DATEINSCRI)) %>%
@@ -94,7 +103,9 @@ p
 + *Africa and Arab States*: A notable decrease suggests challenges in site preservation or documentation in these regions.
 + *Comparative Trends*: Europe and North America, along with Asia and the Pacific, lead in the number of sites, while Africa lags behind.
 
-2. **Distribution of Heritage Sites by Region and Category**
+
+
+## **Distribution of Heritage Sites by Region and Category**
 
 The @fig-regioncategory provides a horizontal bar chart detailing the distribution of World Heritage Sites by region and category. This visualization illustrates how sites are classified and distributed globally.
 
@@ -148,44 +159,38 @@ p2
 + *Underrepresented Regions*: Arab States and Africa have fewer natural and cultural/natural sites, indicating potential areas for increased focus.
 
 
-```{r}
-library(kableExtra)
+## Top 10 Countries with the Most Heritage Sites
 
-# Summary table by region and category
-simple_table <- heritage_clean %>%
-  group_by(REGION, CATFIN_FULL) %>%
-  summarise(Total_Sites = n(), .groups = 'drop') %>%
-  pivot_wider(names_from = CATFIN_FULL, values_from = Total_Sites) %>%
-  replace(is.na(.), 0)  # Replace NA with 0 for better display
+The table in @tbl-topten presents the countries with the highest number of UNESCO World Heritage Sites. These countries lead in terms of heritage preservation, with strong cultural or natural legacies that have been recognized globally. The dominance of Europe and Asia is apparent, with countries like Italy and China having the most sites. Such distribution highlights the rich historical, cultural, and natural diversity in these regions.
 
-# Display the table
-simple_table
+```{r table_by_country, warning=FALSE, message=FALSE}
+#| label: tbl-topten
+#| tbl-cap: "Top 10 Countries"
+#| echo: false
+#| code-fold: true
+
+top_countries <- heritage_clean %>%
+  st_drop_geometry() %>%  # Dropping the geometry column
+  group_by(COUNTRY) %>%
+  summarise(Total_Sites = n()) %>%
+  arrange(desc(Total_Sites)) %>%
+  slice_head(n = 10)  
+
+kableExtra::kable(top_countries, col.names = c("Country", "Total Sites")) %>%
+  kableExtra::kable_styling(bootstrap_options = c("striped", "hover"))
 
 ```
 
 
 
+This analysis uncovers global trends in UNESCO World Heritage Site inscriptions. Regions such as Europe, North America, and Asia dominate the landscape, while underrepresentation is apparent in Africa and the Arab States. These insights can guide efforts to enhance global heritage preservation, ensuring a more balanced representation of cultural and natural legacies.
 
-###### **Data source** : 
-
-Data was sourced from the [UNESCO World Heritage Sites dataset](https://ihp-wins.unesco.org/dataset/unesco-world-heritage-sites), which includes comprehensive information about World Heritage Sites globally.
-
-###### **Data dictionary** : 
-
-1. NAME: The official name of the World Heritage Site.
-2. COUNTRY: The country where the World Heritage Site is located.
-3. DATEINSCRI: Year(s) when the site was inscribed as a World Heritage Site.
-4. REGION: Geographical region where the site is located.
-5. CATFIN_FULL: Final classification of the site (Cultural, Natural, Cultural/Natural, Not Designated).
+As highlighted in a comparative study by [Gullino and Larcher (2013)](https://doi.org/10.1016/j.culher.2012.10.005), conservation efforts need to integrate local contexts to maintain the integrity of World Heritage Sites, especially in regions with fewer inscriptions . This aligns with the findings here, calling for a focused approach in underrepresented areas.
 
 
 
-The analysis highlights significant trends and distributions of UNESCO World Heritage Sites. The findings highlight the significant contributions of Europe and North America, while also identifying regions with fewer sites. The insights provided can guide future heritage preservation efforts and help balance the global representation of World Heritage Sites.
+## References:
 
-
-
-
-# References:
 + **Integrity in UNESCO World Heritage Sites. A comparative study for rural landscapes** : Gullino, P., & Larcher, F. (2013). Integrity in UNESCO World Heritage Sites. A comparative study for rural landscapes. Journal of Cultural Heritage, 14(5), 389–395 [Link](https://doi.org/10.1016/j.culher.2012.10.005)
 
 + **UNESCO website** : UNESCO World Heritage Sites - IHP Water Information Network System (IHP-WINS). (n.d.) [Link](https://ihp-wins.unesco.org/dataset/unesco-world-heritage-sites)
