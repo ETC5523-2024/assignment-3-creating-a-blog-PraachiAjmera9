@@ -1,0 +1,65 @@
+[
+  {
+    "objectID": "posts/Unesco/unesco.html",
+    "href": "posts/Unesco/unesco.html",
+    "title": "Mapping the World’s Heritage: Insights into Trends and Regional Distribution of UNESCO Sites",
+    "section": "",
+    "text": "UNESCO World Heritage Sites represent humanity’s most valuable cultural and natural legacies. By analyzing patterns over time and across regions, this report uncovers key trends shaping the global heritage landscape. Through visualizations, we reveal how different regions contribute to preserving and recognizing heritage, how inscriptions evolved over time, and the classification of these sites."
+  },
+  {
+    "objectID": "posts/Unesco/unesco.html#data-overview",
+    "href": "posts/Unesco/unesco.html#data-overview",
+    "title": "Mapping the World’s Heritage: Insights into Trends and Regional Distribution of UNESCO Sites",
+    "section": "Data Overview",
+    "text": "Data Overview\nThis study utilizes the UNESCO World Heritage Sites dataset, encompassing detailed information about heritage sites globally. The key variables analyzed include:\n\nNAME: The official name of the World Heritage Site.\nCOUNTRY: The country where the World Heritage Site is located.\nDATEINSCRI: Year(s) when the site was inscribed as a World Heritage Site.\nREGION: Geographical region where the site is located.\nCATFIN_FULL: Final classification of the site (Cultural, Natural, Cultural/Natural, Not Designated).\n\nIn the data cleaning process, I selected important columns from the dataset, such as the site names, country, region, year of inscription, whether the site is in danger, and the site’s category. I also recoded the site categories to make them easier to understand (e.g., Cultural, Natural). Additionally, removed any spatial data (geometry) when summarizing or creating tables to keep the focus on non-spatial information. Finally, I corrected and standardized the names of regions to ensure consistency in our analysis."
+  },
+  {
+    "objectID": "posts/Unesco/unesco.html#trends-in-world-heritage-sites-inscribed-each-year-by-region",
+    "href": "posts/Unesco/unesco.html#trends-in-world-heritage-sites-inscribed-each-year-by-region",
+    "title": "Mapping the World’s Heritage: Insights into Trends and Regional Distribution of UNESCO Sites",
+    "section": "Trends in World Heritage Sites Inscribed Each Year by Region",
+    "text": "Trends in World Heritage Sites Inscribed Each Year by Region\nThe time series plot in Figure 1 reveals how the number of World Heritage Sites inscribed each year varies by region.\n\n\n\n\n\n\n\n\nFigure 1: Number of Heritage Sites Inscribed Each Year by Region\n\n\n\n\n\nKey Observations:\n\nAsia and the Pacific: A consistent rise in site inscriptions showcases growing global recognition of the region’s heritage.\nEurope and North America & Latin America and the Caribbean: Peaks around 1998-2005 indicate periods of intensified heritage recognition and conservation efforts.\nAfrica and Arab States: A notable decrease suggests challenges in site preservation or documentation in these regions.\nComparative Trends: Europe and North America, along with Asia and the Pacific, lead in the number of sites, while Africa lags behind."
+  },
+  {
+    "objectID": "posts/Unesco/unesco.html#distribution-of-heritage-sites-by-region-and-category",
+    "href": "posts/Unesco/unesco.html#distribution-of-heritage-sites-by-region-and-category",
+    "title": "Mapping the World’s Heritage: Insights into Trends and Regional Distribution of UNESCO Sites",
+    "section": "Distribution of Heritage Sites by Region and Category",
+    "text": "Distribution of Heritage Sites by Region and Category\nThe Figure 2 provides a horizontal bar chart detailing the distribution of World Heritage Sites by region and category. This visualization illustrates how sites are classified and distributed globally.\n\n\n\n\n\n\n\n\nFigure 2: Number of Heritage Sites by Region and Category\n\n\n\n\n\nKey Insights:\n\nCultural Sites: Predominantly concentrated in Europe and North America, reflecting a strong cultural heritage presence.\nNatural Sites: Significant in Asia and the Pacific as well as Europe and North America, highlighting diverse natural landscapes.\nCultural/Natural Sites: Most common in Asia and the Pacific, where Europe and North America is also in the lead behind, both showing a blend of cultural and natural heritage.\nUnderrepresented Regions: Arab States and Africa have fewer natural and cultural/natural sites, indicating potential areas for increased focus."
+  },
+  {
+    "objectID": "posts/Unesco/unesco.html#top-10-countries-with-the-most-heritage-sites",
+    "href": "posts/Unesco/unesco.html#top-10-countries-with-the-most-heritage-sites",
+    "title": "Mapping the World’s Heritage: Insights into Trends and Regional Distribution of UNESCO Sites",
+    "section": "Top 10 Countries with the Most Heritage Sites",
+    "text": "Top 10 Countries with the Most Heritage Sites\nThe table in Table 1 presents the countries with the highest number of UNESCO World Heritage Sites. These countries lead in terms of heritage preservation, with strong cultural or natural legacies that have been recognized globally. The dominance of Europe and Asia is apparent, with countries like Italy and China having the most sites. Such distribution highlights the rich historical, cultural, and natural diversity in these regions.\n\n\n\n\nTable 1: Top 10 Countries\n\n\n\n\n\n\nCountry\nTotal Sites\n\n\n\n\nChina\n49\n\n\nItaly\n47\n\n\nSpain\n42\n\n\nFrance\n38\n\n\nGermany\n35\n\n\nIndia\n34\n\n\nMexico\n34\n\n\nUnited Kingdom of Great Britain and Northern Ireland\n29\n\n\nRussian Federation\n23\n\n\nIran (Islamic Republic of)\n21\n\n\n\n\n\n\n\n\n\n\nThis analysis uncovers global trends in UNESCO World Heritage Site inscriptions. Regions such as Europe, North America, and Asia dominate the landscape, while underrepresentation is apparent in Africa and the Arab States. These insights can guide efforts to enhance global heritage preservation, ensuring a more balanced representation of cultural and natural legacies.\nAs highlighted in a comparative study by Gullino and Larcher (2013), conservation efforts need to integrate local contexts to maintain the integrity of World Heritage Sites, especially in regions with fewer inscriptions . This aligns with the findings here, calling for a focused approach in underrepresented areas."
+  },
+  {
+    "objectID": "posts/Unesco/unesco.html#references",
+    "href": "posts/Unesco/unesco.html#references",
+    "title": "Mapping the World’s Heritage: Insights into Trends and Regional Distribution of UNESCO Sites",
+    "section": "References:",
+    "text": "References:\n\nIntegrity in UNESCO World Heritage Sites. A comparative study for rural landscapes : Gullino, P., & Larcher, F. (2013). Integrity in UNESCO World Heritage Sites. A comparative study for rural landscapes. Journal of Cultural Heritage, 14(5), 389–395 Link\nUNESCO website : UNESCO World Heritage Sites - IHP Water Information Network System (IHP-WINS). (n.d.) Link"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Mapping the World’s Heritage: Insights into Trends and Regional Distribution of UNESCO Sites\n\n\n\n\n\n\nWorld\n\n\nR\n\n\n\nAnalyzing significant trends and distributions of UNESCO World Heritage Sites. \n\n\n\n\n\nOct 4, 2024\n\n\nPraachi Ajmera\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I am a student at Monash University pursuing a Master’s in Business Analytics. I completed my Bachelor’s in Computer Science Engineering in India, where I built a strong foundation in programming and data structures. I’m eager to learn and gain experience in business analytics, and I enjoy working with Python, R, and SQL. I’m excited to explore machine learning and data mining. In my free time, I play badminton and read, which helps me stay balanced and curious."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Praachi Ajmera",
+    "section": "",
+    "text": "Welcome to Heritage Exploration!"
+  }
+]
