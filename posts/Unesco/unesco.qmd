@@ -48,6 +48,7 @@ This study utilizes the [UNESCO World Heritage Sites dataset](https://ihp-wins.u
 4. REGION: Geographical region where the site is located.
 5. CATFIN_FULL: Final classification of the site (Cultural, Natural, Cultural/Natural, Not Designated).
 
+In the data cleaning process, I selected important columns from the dataset, such as the site names, country, region, year of inscription, whether the site is in danger, and the site's category. I also recoded the site categories to make them easier to understand (e.g., Cultural, Natural). Additionally, removed any spatial data (geometry) when summarizing or creating tables to keep the focus on non-spatial information. Finally, I corrected and standardized the names of regions to ensure consistency in our analysis.
 
 
 ## **Trends in World Heritage Sites Inscribed Each Year by Region** 
