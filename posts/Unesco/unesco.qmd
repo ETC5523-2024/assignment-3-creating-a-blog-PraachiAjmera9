@@ -10,7 +10,7 @@ format:
     css: styles.css
 ---
 
-![](unesco2.jpg)
+![](images/unesco2.jpg)
 
 
 ```{r data_loading, include=FALSE, warning=FALSE, message=FALSE}

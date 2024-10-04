@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: image33.jpeg
+image: home_image/image33.jpeg
 about:
   template: solana
   image-width: 20em
